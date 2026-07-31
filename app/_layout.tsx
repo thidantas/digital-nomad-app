@@ -1,3 +1,5 @@
+import theme from "@/src/theme/theme";
+import { ThemeProvider } from "@shopify/restyle";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -5,7 +7,7 @@ import "react-native-reanimated";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    SpaceMono: require("../assets/fonts/Poppins-Black.ttf"),
   });
 
   if (!loaded) {
@@ -14,11 +16,13 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
-      <Stack.Screen name="(protected)" options={{ headerShown: false }} />
-      <Stack.Screen name="+not-found" />
-      <Stack.Screen name="sign-in" />
-      <StatusBar style="auto" />
-    </Stack>
+    <ThemeProvider theme={theme}>
+      <Stack>
+        <Stack.Screen name="(protected)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+        <Stack.Screen name="sign-in" />
+        <StatusBar style="auto" />
+      </Stack>
+    </ThemeProvider>
   );
 }
