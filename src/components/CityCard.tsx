@@ -2,7 +2,7 @@ import { ImageBackground } from "react-native";
 import { useAppTheme } from "../theme/useAppTheme";
 import { CityPreview } from "../types";
 import { Box } from "./Box";
-import { Icon } from "./Icons";
+import { Icon } from "./Icon";
 import { Text } from "./Text";
 
 type CityCardProps = {

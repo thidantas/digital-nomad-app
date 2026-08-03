@@ -1,4 +1,4 @@
-import { Icon } from "@/src/components/Icons";
+import { Icon } from "@/src/components/Icon";
 import { useAppTheme } from "@/src/theme/useAppTheme";
 import { Tabs } from "expo-router";
 import React from "react";
