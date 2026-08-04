@@ -3,11 +3,17 @@ import { Box, BoxProps } from "./Box";
 import { Icon, IconName } from "./Icon";
 import { Text } from "./Text";
 
+/**
+ * The height of the pill is the sum of the icon size, padding, and border width.
+ * This is used to calculate the marginTop of the pill to center it vertically.
+ */
+export const PILL_HEIGHT = 16 + 16 + 4;
+
 export type PillProps = {
   label: string;
   iconName: IconName;
   active: boolean;
-  onPress: PressableProps["onPress"];
+  onPress?: PressableProps["onPress"];
 };
 
 export function Pill({ label, iconName, active, onPress }: PillProps) {
