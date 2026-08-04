@@ -1,7 +1,7 @@
 import { ImageBackground } from "expo-image";
 import { router } from "expo-router";
 import { ScrollView } from "react-native";
-import { CategoryPill, PILL_HEIGHT } from "../components";
+import { BlackOpacity, CategoryPill, PILL_HEIGHT } from "../components";
 import { Box } from "../components/Box";
 import { Icon } from "../components/Icon";
 import { IconButton } from "../components/IconButton";
@@ -23,6 +23,7 @@ export function CityDetailsHeader({
         style={{ width: "100%", height: 250 }}
         imageStyle={{ borderBottomRightRadius: 40 }}
       >
+        <BlackOpacity />
         <Box
           flexDirection="row"
           justifyContent="space-between"

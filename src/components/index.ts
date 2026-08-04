@@ -1,3 +1,4 @@
+export * from "./BlackOpacity";
 export * from "./Box";
 export * from "./CategoryPill";
 export * from "./CityCard";
