@@ -2,6 +2,7 @@ export * from "./BlackOpacity";
 export * from "./Box";
 export * from "./CategoryPill";
 export * from "./CityCard";
+export * from "./Divider";
 export * from "./Icon";
 export * from "./IconButton";
 export * from "./Pill";
