@@ -1,14 +1,15 @@
 import { Pressable, StyleSheet, View } from "react-native";
 import Animated, {
   interpolate,
+  interpolateColor,
   SharedValue,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import theme from "../theme/theme";
+import { useAppTheme } from "../theme/useAppTheme";
 import { Box } from "./Box";
-import { Icon } from "./Icon";
 import { Text } from "./Text";
 
 type AccordionProps = {
@@ -45,7 +46,14 @@ function AccordionHeader({
   // progress: 0 > 1
   // icon: 0 => 180
 
+  const { colors } = useAppTheme();
+
   const iconAnimatedStyle = useAnimatedStyle(() => ({
+    tintColor: interpolateColor(
+      progress.value,
+      [0, 1],
+      [colors.gray2, colors.primary],
+    ),
     transform: [
       {
         rotate: interpolate(progress.value, [0, 1], [0, -180]) + "deg",
@@ -58,9 +66,10 @@ function AccordionHeader({
       <Box flexShrink={1}>
         <Text variant="title16">{title}</Text>
       </Box>
-      <Animated.View style={iconAnimatedStyle}>
-        <Icon name="Chevron-down" color="gray2" />
-      </Animated.View>
+      <Animated.Image
+        source={require("@/assets/images/chevron-down.png")}
+        style={[iconAnimatedStyle, { width: 24, height: 24 }]}
+      />
     </View>
   );
 }
