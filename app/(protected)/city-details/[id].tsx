@@ -44,19 +44,19 @@ export default function CityDetails() {
           description={city.description}
         />
 
-        <Divider paddingHorizontal="padding" />
+        <Divider paddingHorizontal="default" />
 
         <CityDetailsTouristAttractions
           touristAttractions={city.touristAttractions}
         />
 
-        <Divider paddingHorizontal="padding" />
+        <Divider paddingHorizontal="default" />
 
         <Pressable onPress={toggleBottomSheet}>
           <CityDetailsMap location={city.location} />
         </Pressable>
 
-        <Divider paddingHorizontal="padding" />
+        <Divider paddingHorizontal="default" />
 
         <CityDetailsRelatedCities />
       </Screen>

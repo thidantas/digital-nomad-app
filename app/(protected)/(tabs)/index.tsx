@@ -32,7 +32,7 @@ export default function HomeScreen() {
 
   function renderItem({ item }: ListRenderItemInfo<CityPreview>) {
     return (
-      <Box paddingHorizontal="padding">
+      <Box paddingHorizontal="default">
         <CityCard cityPreview={item} />
       </Box>
     );
@@ -43,9 +43,9 @@ export default function HomeScreen() {
       <FlatList
         ref={flatListRef}
         contentContainerStyle={{
-          gap: spacing.padding,
+          gap: spacing.default,
           paddingTop: top,
-          paddingBottom: spacing.padding,
+          paddingBottom: spacing.default,
         }}
         data={cityPreviewList}
         renderItem={renderItem}

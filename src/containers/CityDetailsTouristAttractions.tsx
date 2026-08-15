@@ -7,7 +7,7 @@ type Props = Pick<City, "touristAttractions">;
 
 export function CityDetailsTouristAttractions({ touristAttractions }: Props) {
   return (
-    <Box padding="padding">
+    <Box padding="default">
       <Text variant="title22" mb="s8">
         Pontos turísticos
       </Text>

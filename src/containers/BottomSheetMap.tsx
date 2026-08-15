@@ -30,7 +30,7 @@ export function BottomSheetMap({
           longitudeDelta: 0.2,
         }}
       />
-      <Box position="absolute" top={spacing.padding} right={spacing.padding}>
+      <Box position="absolute" top={spacing.default} right={spacing.default}>
         <IconButton iconName="Close" onPress={bottomSheetProps.onPress} />
       </Box>
     </BottomSheet>

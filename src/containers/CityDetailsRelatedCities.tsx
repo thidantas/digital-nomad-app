@@ -3,7 +3,7 @@ import { Text } from "../components/Text";
 
 export function CityDetailsRelatedCities() {
   return (
-    <Box padding="padding">
+    <Box padding="default">
       <Text>CityDetailsRelatedCities</Text>
     </Box>
   );

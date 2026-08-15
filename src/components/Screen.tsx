@@ -13,7 +13,7 @@ export function Screen({
     <Box
       flex={1}
       backgroundColor="background"
-      paddingHorizontal="padding"
+      paddingHorizontal="default"
       {...boxProps}
     >
       <Container>{children}</Container>

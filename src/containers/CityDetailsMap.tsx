@@ -12,7 +12,7 @@ export function CityDetailsMap({ location }: CityDetailsMapProps) {
   const { borderRadii } = useAppTheme();
 
   return (
-    <Box padding="padding">
+    <Box padding="default">
       <Text variant="title22" mb="s16">
         Mapa
       </Text>

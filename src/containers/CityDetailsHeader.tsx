@@ -28,7 +28,7 @@ export function CityDetailsHeader({
           flexDirection="row"
           justifyContent="space-between"
           alignItems="center"
-          padding="padding"
+          padding="default"
           style={{ paddingTop: top }}
         >
           <IconButton iconName="Chevron-left" onPress={router.back} />
@@ -41,7 +41,7 @@ export function CityDetailsHeader({
         showsHorizontalScrollIndicator={false}
         style={{ marginTop: -PILL_HEIGHT / 2 }}
       >
-        <Box flexDirection="row" gap="s8" paddingHorizontal="padding">
+        <Box flexDirection="row" gap="s8" paddingHorizontal="default">
           {categories.map((category) => (
             <CategoryPill active={true} key={category.id} category={category} />
           ))}
