@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { supabaseService } from "../supabase/supabaseService";
+import { CityFilters, supabaseService } from "../supabase/supabaseService";
 import { CityPreview } from "../types";
-
-type CityFilter = {
-  name?: string;
-  categoryId?: string | null;
-};
 
 type UseCitiesReturn = {
   cities?: CityPreview[];
@@ -14,9 +9,7 @@ type UseCitiesReturn = {
   error: unknown;
 };
 
-export function useCities({ name, categoryId }: CityFilter): UseCitiesReturn {
-  supabaseService.findAll();
-
+export function useCities(filters: CityFilters): UseCitiesReturn {
   const [cities, setCities] = useState<CityPreview[]>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
@@ -24,7 +17,7 @@ export function useCities({ name, categoryId }: CityFilter): UseCitiesReturn {
   async function fetchData() {
     try {
       setIsLoading(true);
-      const cities = await supabaseService.findAll();
+      const cities = await supabaseService.findAll(filters);
       console.log(cities[0].coverImage);
       setCities(cities);
     } catch (error) {
@@ -36,7 +29,9 @@ export function useCities({ name, categoryId }: CityFilter): UseCitiesReturn {
 
   useEffect(() => {
     fetchData();
-  }, []);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters.name, filters.categoryId]);
 
   return {
     cities,
