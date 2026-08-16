@@ -21,7 +21,7 @@ export function CityFilter({
 }: CityFilterProps) {
   return (
     <Box>
-      <Box paddingHorizontal="padding">
+      <Box paddingHorizontal="default">
         <SearchInput
           value={cityName}
           onChangeText={onChangeCityName}
@@ -29,7 +29,7 @@ export function CityFilter({
         />
       </Box>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <Box mt="s16" flexDirection="row" gap="s8" paddingHorizontal="padding">
+        <Box mt="s16" flexDirection="row" gap="s8" paddingHorizontal="default">
           {categories.map((category) => (
             <CategoryPill
               key={category.id}
