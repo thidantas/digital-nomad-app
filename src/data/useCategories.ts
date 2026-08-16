@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 
 import { supabaseService } from "../supabase/supabaseService";
-import { City } from "../types";
+import { Category } from "../types";
 
-type UseCityDetailsReturn = {
-  city?: City;
+type UseCategoriesReturn = {
+  categories: Category[];
   isLoading: boolean;
   error: unknown;
 };
 
-export function useCityDetails(id: string): UseCityDetailsReturn {
-  const [city, setCity] = useState<City>();
+export function useCategories(): UseCategoriesReturn {
+  const [categories, setCategories] = useState<Category[]>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
 
   async function fetchData() {
     try {
       setIsLoading(true);
-      const cities = await supabaseService.findById(id);
+      const cities = await supabaseService.listCategory();
 
-      setCity(cities);
+      setCategories(cities);
     } catch (error) {
       setError(error);
     } finally {
@@ -29,11 +29,10 @@ export function useCityDetails(id: string): UseCityDetailsReturn {
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
-    city,
+    categories: categories || [],
     isLoading,
     error,
   };
