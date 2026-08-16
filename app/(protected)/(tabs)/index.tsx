@@ -24,7 +24,7 @@ export default function HomeScreen() {
     null,
   );
 
-  const { cityPreviewList } = useCities({
+  const { cities } = useCities({
     name: debouncedCityName,
     categoryId: selectedCategoryId,
   });
@@ -50,7 +50,7 @@ export default function HomeScreen() {
           paddingTop: top,
           paddingBottom: spacing.default,
         }}
-        data={cityPreviewList}
+        data={cities}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id}
