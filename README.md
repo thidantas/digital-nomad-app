@@ -1,50 +1,121 @@
-# Welcome to your Expo app 👋
+# Digital Nomad App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+App mobile para explorar cidades para digital nomads — lista, filtros, detalhes, mapa e cidades relacionadas.
 
-## Get started
+Stack principal: **Expo SDK 54**, **Expo Router**, **React Native**, **Restyle**, **Reanimated**, **Supabase**.
 
-1. Install dependencies
+> Ao escrever código Expo, consulte a docs versionada: https://docs.expo.dev/versions/v54.0.0/
 
-   ```bash
-   npm install
-   ```
+## Pré-requisitos
 
-2. Start the app
+- Node.js (LTS recomendado)
+- npm
+- Conta e projeto no [Supabase](https://supabase.com)
+- Extensão **PostGIS** habilitada no banco (usada nos scripts SQL)
+- Expo Go ou emulador/simulador (Android/iOS)
 
-   ```bash
-   npx expo start
-   ```
+## Setup
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### 1. Instalar dependências
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Variáveis de ambiente
 
-## Learn more
+```bash
+cp .env.example .env
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Preencha no `.env`:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```env
+EXPO_PUBLIC_SUPABASE_URL=<sua-url>
+EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<sua-publishable-key>
+EXPO_PUBLIC_SUPABASE_STORAGE_URL=https://<seu-projeto>.supabase.co/storage/v1/object/public
+```
 
-## Join the community
+O arquivo `.env` está no `.gitignore` e não deve ser commitado.
 
-Join our community of developers creating universal apps.
+### 3. Banco de dados (Supabase)
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Rode os scripts em `src/data/sql/` **nessa ordem** no SQL Editor do Supabase:
+
+1. `1-create-tables.sql` — tabelas + PostGIS
+2. `2-seed-categories.sql`
+3. `3-seed-cities.sql`
+4. `4-seed-tourist_attractions-CTE.sql`
+5. `5-seed-city_categories-CTE.sql`
+6. `6-seed-city_cities-CTE.sql`
+7. `7-create-view-cities_with_full_info.sql`
+8. `8-create-view-cities_with_categories.sql`
+9. `9-create-view-related-cities.sql`
+
+Opcional: `update-cities-cover-images.sql` se precisar ajustar paths de cover no Storage.
+
+Faça upload das imagens de capa no Storage (bucket/path alinhado aos seeds, ex.: `digital-nomad/cover/...`).
+
+### 4. Rodar o app
+
+```bash
+npm start
+```
+
+Atalhos:
+
+```bash
+npm run android
+npm run ios
+npm run web
+```
+
+## Scripts úteis
+
+| Script | Descrição |
+| --- | --- |
+| `npm start` | Inicia o Expo |
+| `npm run lint` | ESLint (`expo lint`) |
+| `npm run typecheck` | TypeScript (`tsc --noEmit`) |
+
+## Estrutura do projeto
+
+```text
+app/                    # Rotas (Expo Router)
+  (protected)/          # Área autenticada / tabs + city-details
+  sign-in.tsx
+src/
+  components/           # UI reutilizável (Box, Text, CityCard, Accordion, BottomSheet…)
+  containers/           # Composições de tela (filtros, seções de detalhes)
+  data/                 # Hooks de dados + SQL
+    sql/                # Schema, seeds e views do Supabase
+  hooks/                # useDebounce, useSafeArea…
+  supabase/             # Client, service, adapter e tipos gerados
+  theme/                # Restyle theme (cores, spacing, tipografia Poppins)
+assets/                 # Fontes, ícones IcoMoon, imagens
+docs/prs/               # Rascunhos de descrição de PRs
+```
+
+## Arquitetura (visão geral)
+
+- **UI / theme:** `@shopify/restyle` (`Box`, `Text`, tokens em `src/theme`)
+- **Navegação:** Expo Router com typed routes
+- **Animações:** Reanimated (Accordion, BottomSheet, list layout)
+- **Mapas:** `react-native-maps`
+- **Dados:** Supabase via `supabaseService` + `supabaseAdapter`
+- **Hooks de fetch:** `useFetchData` compartilhado por `useCities`, `useCategories`, `useCityDetails`, `useRelatedCities`
+
+## Desenvolvimento
+
+- Tipagem: TypeScript strict; use a versão do workspace (`node_modules/typescript`)
+- Debug: Reactotron carrega só em `__DEV__` (`ReactotronConfig.js`)
+- Descrições de PR: adicione/atualize em `docs/prs/`
+- Não commitar `.env`, `node_modules`, `.expo` ou `project-archives/`
+
+## Documentação relacionada
+
+- [Expo SDK 54](https://docs.expo.dev/versions/v54.0.0/)
+- [Expo Router](https://docs.expo.dev/router/introduction/)
+- [Supabase JS](https://supabase.com/docs/reference/javascript/introduction)
+- [Restyle](https://github.com/Shopify/restyle)
+- [Reanimated](https://docs.swmansion.com/react-native-reanimated/)
