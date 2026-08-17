@@ -15,7 +15,7 @@ import { useCityDetails } from "@/src/data/useCityDetails";
 
 export default function CityDetails() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { city } = useCityDetails(id);
+  const { data: city } = useCityDetails(id);
 
   const bottomSheetIsOpen = useSharedValue(false);
   function toggleBottomSheet() {

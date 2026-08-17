@@ -24,11 +24,11 @@ export default function HomeScreen() {
     null,
   );
 
-  const { cities } = useCities({
+  const { data: cities } = useCities({
     name: debouncedCityName,
     categoryId: selectedCategoryId,
   });
-  const { categories } = useCategories();
+  const { data: categories } = useCategories();
 
   const flatListRef = useRef(null);
   useScrollToTop(flatListRef);
