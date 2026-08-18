@@ -1,3 +1,5 @@
+import { City } from "@/src/domain/city/City";
+import { useSafeArea } from "@/src/hooks";
 import { ImageBackground } from "expo-image";
 import { router } from "expo-router";
 import { ScrollView } from "react-native";
@@ -5,8 +7,6 @@ import { BlackOpacity, CategoryPill, PILL_HEIGHT } from "../components";
 import { Box } from "../components/Box";
 import { Icon } from "../components/Icon";
 import { IconButton } from "../components/IconButton";
-import { useSafeArea } from "../hooks";
-import { City } from "../types";
 
 type CityDetailsHeaderProps = Pick<City, "id" | "coverImage" | "categories">;
 

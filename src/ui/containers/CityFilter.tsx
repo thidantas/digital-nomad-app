@@ -1,8 +1,8 @@
+import { Category } from "@/src/domain/category/Category";
 import { ScrollView } from "react-native";
 import { Box } from "../components/Box";
 import { CategoryPill } from "../components/CategoryPill";
 import { SearchInput } from "../components/SearchInput";
-import { Category } from "../types";
 
 type CityFilterProps = {
   categories?: Category[];

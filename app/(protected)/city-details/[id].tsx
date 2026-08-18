@@ -2,16 +2,16 @@ import { useLocalSearchParams } from "expo-router";
 import { Pressable } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 
-import { Divider } from "@/src/components";
-import { Screen } from "@/src/components/Screen";
-import { Text } from "@/src/components/Text";
-import { BottomSheetMap } from "@/src/containers/BottomSheetMap";
-import { CityDetailsHeader } from "@/src/containers/CityDetailsHeader";
-import { CityDetailsInfo } from "@/src/containers/CityDetailsInfo";
-import { CityDetailsMap } from "@/src/containers/CityDetailsMap";
-import { CityDetailsRelatedCities } from "@/src/containers/CityDetailsRelatedCities";
-import { CityDetailsTouristAttractions } from "@/src/containers/CityDetailsTouristAttractions";
 import { useCityFindById } from "@/src/domain/city/operations/useCityFindById";
+import { Divider } from "@/src/ui/components";
+import { Screen } from "@/src/ui/components/Screen";
+import { Text } from "@/src/ui/components/Text";
+import { BottomSheetMap } from "@/src/ui/containers/BottomSheetMap";
+import { CityDetailsHeader } from "@/src/ui/containers/CityDetailsHeader";
+import { CityDetailsInfo } from "@/src/ui/containers/CityDetailsInfo";
+import { CityDetailsMap } from "@/src/ui/containers/CityDetailsMap";
+import { CityDetailsRelatedCities } from "@/src/ui/containers/CityDetailsRelatedCities";
+import { CityDetailsTouristAttractions } from "@/src/ui/containers/CityDetailsTouristAttractions";
 
 export default function CityDetails() {
   const { id } = useLocalSearchParams<{ id: string }>();
