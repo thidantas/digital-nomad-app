@@ -9,10 +9,10 @@ import { CityCard } from "@/src/components/CityCard";
 import { Screen } from "@/src/components/Screen";
 import { CityFilter } from "@/src/containers/CityFilter";
 import { useCategories } from "@/src/data/useCategories";
-import { useCities } from "@/src/data/useCities";
+import { CityPreview } from "@/src/domain/city/City";
+import { useCityFindAll } from "@/src/domain/city/operations/useCityFindAll";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { useAppTheme } from "@/src/theme/useAppTheme";
-import { CityPreview } from "@/src/types";
 
 export default function HomeScreen() {
   const { spacing } = useAppTheme();
@@ -24,10 +24,11 @@ export default function HomeScreen() {
     null,
   );
 
-  const { data: cities } = useCities({
+  const { data: cities } = useCityFindAll({
     name: debouncedCityName,
     categoryId: selectedCategoryId,
   });
+
   const { data: categories } = useCategories();
 
   const flatListRef = useRef(null);

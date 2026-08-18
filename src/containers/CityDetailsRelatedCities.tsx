@@ -5,15 +5,15 @@ import { Box } from "../components/Box";
 import { CityCard } from "../components/CityCard";
 import { Text } from "../components/Text";
 
-import { useRelatedCities } from "../data/useRelatedCities";
 import { useAppTheme } from "../theme/useAppTheme";
 
-import { City } from "../types";
+import { City } from "../domain/city/City";
+import { useGetRelatedCities } from "../domain/city/operations/useGetRelatedCities";
 
 type Props = Pick<City, "id">;
 
 export function CityDetailsRelatedCities({ id }: Props) {
-  const { data: cities } = useRelatedCities(id);
+  const { data: cities } = useGetRelatedCities(id);
 
   const { spacing } = useAppTheme();
   const { bottom } = useSafeAreaInsets();
