@@ -2,21 +2,19 @@ import { useScrollToTop } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import { ListRenderItemInfo } from "react-native";
 import Animated, { FadingTransition } from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { Box } from "@/src/components/Box";
-import { CityCard } from "@/src/components/CityCard";
-import { Screen } from "@/src/components/Screen";
-import { CityFilter } from "@/src/containers/CityFilter";
-import { useCategories } from "@/src/data/useCategories";
-import { useCities } from "@/src/data/useCities";
+import { useCategoryFindAll } from "@/src/domain/category/operations/useCategoryFindAll";
+import { CityPreview } from "@/src/domain/city/City";
+import { useCityFindAll } from "@/src/domain/city/operations/useCityFindAll";
+import { useSafeArea } from "@/src/hooks";
 import { useDebounce } from "@/src/hooks/useDebounce";
-import { useAppTheme } from "@/src/theme/useAppTheme";
-import { CityPreview } from "@/src/types";
+import { Box, CityCard, Screen } from "@/src/ui/components";
+import { CityFilter } from "@/src/ui/containers/CityFilter";
+import { useAppTheme } from "@/src/ui/theme/useAppTheme";
 
 export default function HomeScreen() {
   const { spacing } = useAppTheme();
-  const { top } = useSafeAreaInsets();
+  const { top } = useSafeArea();
   const [cityName, setCityName] = useState("");
 
   const debouncedCityName = useDebounce(cityName);
@@ -24,11 +22,12 @@ export default function HomeScreen() {
     null,
   );
 
-  const { data: cities } = useCities({
+  const { data: cities } = useCityFindAll({
     name: debouncedCityName,
     categoryId: selectedCategoryId,
   });
-  const { data: categories } = useCategories();
+
+  const { data: categories } = useCategoryFindAll();
 
   const flatListRef = useRef(null);
   useScrollToTop(flatListRef);
