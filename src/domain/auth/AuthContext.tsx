@@ -1,5 +1,5 @@
 import { useStorage } from "@/src/infra/storage/StorageContext";
-import { router } from "expo-router";
+import { router, SplashScreen } from "expo-router";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthUser } from "./AuthUser";
 
@@ -9,6 +9,8 @@ type AuthState = {
   saveAuthUser: (authUser: AuthUser) => Promise<void>;
   removeAuthUser: () => Promise<void>;
 };
+
+SplashScreen.preventAutoHideAsync();
 
 export const AuthContext = React.createContext<AuthState>({
   authUser: null,
@@ -38,6 +40,12 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
 
   async function loadAuthUser() {
     try {
+      // await new Promise((resolve) => {
+      //   setTimeout(() => {
+      //     resolve("");
+      //   }, 2000);
+      // });
+
       const user = await storage.getItem<AuthUser>(AUTH_KEY);
       if (user) {
         setAuthUser(user);
@@ -54,6 +62,12 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (isReady) {
+      SplashScreen.hideAsync();
+    }
+  }, [isReady]);
 
   return (
     <AuthContext.Provider
