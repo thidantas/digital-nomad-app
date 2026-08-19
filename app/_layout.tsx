@@ -1,5 +1,7 @@
 import { InMemoryRepository } from "@/src/infra/repositories/adapters/inMemory";
 import { RepositoryProvider } from "@/src/infra/repositories/RepositoryProvider";
+import { ConsoleFeedback } from "@/src/services/feedbackService/adapters/console/ConsoleFeedback";
+import { FeedbackProvider } from "@/src/services/feedbackService/FeedbackProvider";
 import theme from "@/src/ui/theme/theme";
 import { ThemeProvider } from "@shopify/restyle";
 import { useFonts } from "expo-font";
@@ -42,18 +44,20 @@ export default function RootLayout() {
   return (
     <RepositoryProvider value={InMemoryRepository}>
       <ThemeProvider theme={theme}>
-        <Stack
-          screenOptions={{
-            contentStyle: { backgroundColor: theme.colors.background },
-            headerShown: false,
-            fullScreenGestureEnabled: true,
-          }}
-        >
-          <Stack.Screen name="(protected)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-          <Stack.Screen name="sign-in" />
-        </Stack>
-        <StatusBar style="light" />
+        <FeedbackProvider value={ConsoleFeedback}>
+          <Stack
+            screenOptions={{
+              contentStyle: { backgroundColor: theme.colors.background },
+              headerShown: false,
+              fullScreenGestureEnabled: true,
+            }}
+          >
+            <Stack.Screen name="(protected)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+            <Stack.Screen name="sign-in" />
+          </Stack>
+          <StatusBar style="light" />
+        </FeedbackProvider>
       </ThemeProvider>
     </RepositoryProvider>
   );
