@@ -17,6 +17,8 @@ export function useAppQuery<DataT>(
   async function _fetchData() {
     try {
       setIsLoading(true);
+      setError(null);
+
       const _data = await fetchData();
 
       setData(_data);
