@@ -28,12 +28,12 @@ export function Button({
   title,
   onPress,
   variant = "primary",
-  ...toProps
+  ...otherProps
 }: ButtonProps) {
   const buttonProps = buttonColors[variant];
   return (
     <TouchableOpacityBox
-      {...toProps}
+      {...otherProps}
       onPress={onPress}
       backgroundColor={buttonProps.backgroundColor}
       borderRadius="default"
