@@ -3,7 +3,7 @@ import { InMemoryRepository } from "@/src/infra/repositories/adapters/inMemory";
 import { RepositoryProvider } from "@/src/infra/repositories/RepositoryProvider";
 import { AsyncStorage } from "@/src/infra/storage/adapters/AsyncStorage";
 import { StorageProvider } from "@/src/infra/storage/StorageContext";
-import { ConsoleFeedback } from "@/src/services/feedbackService/adapters/console/ConsoleFeedback";
+import { AlertFeedback } from "@/src/services/feedbackService/adapters/alert/AlertFeedback";
 import { FeedbackProvider } from "@/src/services/feedbackService/FeedbackProvider";
 import theme from "@/src/ui/theme/theme";
 import { ThemeProvider } from "@shopify/restyle";
@@ -49,7 +49,7 @@ export default function RootLayout() {
       <AuthProvider>
         <RepositoryProvider value={InMemoryRepository}>
           <ThemeProvider theme={theme}>
-            <FeedbackProvider value={ConsoleFeedback}>
+            <FeedbackProvider value={AlertFeedback}>
               <Stack
                 screenOptions={{
                   contentStyle: { backgroundColor: theme.colors.background },
