@@ -19,7 +19,7 @@ export default function SignInScreen() {
   }
 
   return (
-    <Screen>
+    <Screen scrollable>
       <SafeAreaView>
         <Logo />
         <Text variant="title22" alignSelf="center" mb="s16">
