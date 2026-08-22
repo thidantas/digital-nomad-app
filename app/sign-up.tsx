@@ -1,8 +1,8 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Button } from "@/src/ui/components/Button";
 import { Logo } from "@/src/ui/components/Logo";
 import { Screen } from "@/src/ui/components/Screen";
+import { SignUpForm } from "@/src/ui/containers/Forms/SignUpForm/SignUpForm";
 import { Header } from "@/src/ui/containers/Header";
 
 export default function SignUpScreen() {
@@ -13,7 +13,7 @@ export default function SignUpScreen() {
     <Screen>
       <SafeAreaView>
         <Header title="Criar conta" />
-        <Button title="Criar conta" onPress={handleSignUp} />
+        <SignUpForm onSubmit={handleSignUp} />
         <Logo />
       </SafeAreaView>
     </Screen>
