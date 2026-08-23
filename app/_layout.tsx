@@ -1,10 +1,11 @@
 import { AuthProvider } from "@/src/domain/auth/AuthContext";
-import { SupabaseRepositories } from "@/src/infra/repositories/adapters/supabase";
+import { InMemoryRepository } from "@/src/infra/repositories/adapters/inMemory";
 import { RepositoryProvider } from "@/src/infra/repositories/RepositoryProvider";
 import { AsyncStorage } from "@/src/infra/storage/adapters/AsyncStorage";
 import { StorageProvider } from "@/src/infra/storage/StorageContext";
-import { AlertFeedback } from "@/src/services/feedbackService/adapters/alert/AlertFeedback";
+import { ToastFeedback } from "@/src/services/feedbackService/adapters/toast/ToastFeedback";
 import { FeedbackProvider } from "@/src/services/feedbackService/FeedbackProvider";
+import { Toast } from "@/src/ui/components/Toast";
 import theme from "@/src/ui/theme/theme";
 import { ThemeProvider } from "@shopify/restyle";
 import { useFonts } from "expo-font";
@@ -47,9 +48,9 @@ export default function RootLayout() {
   return (
     <StorageProvider storage={AsyncStorage}>
       <AuthProvider>
-        <RepositoryProvider value={SupabaseRepositories}>
+        <RepositoryProvider value={InMemoryRepository}>
           <ThemeProvider theme={theme}>
-            <FeedbackProvider value={AlertFeedback}>
+            <FeedbackProvider value={ToastFeedback}>
               <Stack
                 screenOptions={{
                   contentStyle: { backgroundColor: theme.colors.background },
@@ -67,6 +68,7 @@ export default function RootLayout() {
                 <Stack.Screen name="reset-password" />
               </Stack>
               <StatusBar style="light" />
+              <Toast />
             </FeedbackProvider>
           </ThemeProvider>
         </RepositoryProvider>

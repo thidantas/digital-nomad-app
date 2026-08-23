@@ -19,7 +19,12 @@ export function useAuthSignIn() {
       });
     },
     onError: (error) => {
-      feedbackService.send({ type: "error", message: "error on sign" });
+      feedbackService.send({
+        type: "error",
+        message: "Erro ao fazer login",
+        description: (error as Error).message ?? "Erro desconhecido",
+      });
+      console.log(error);
     },
   });
 }
