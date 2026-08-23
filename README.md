@@ -1,8 +1,8 @@
 # Digital Nomad App
 
-App mobile para explorar cidades para digital nomads — lista, filtros, detalhes, mapa e cidades relacionadas.
+App mobile para digital nomads explorarem cidades — autenticação, lista com filtros, detalhes, mapa e cidades relacionadas.
 
-Stack principal: **Expo SDK 54**, **Expo Router**, **React Native**, **Restyle**, **Reanimated**, **Supabase**.
+Stack principal: **Expo SDK 54**, **Expo Router**, **React Native**, **Restyle**, **Reanimated**, **Supabase Auth**, **react-hook-form** + **Zod**.
 
 > Ao escrever código Expo, consulte a docs versionada: https://docs.expo.dev/versions/v54.0.0/
 
@@ -34,13 +34,15 @@ Preencha no `.env`:
 EXPO_PUBLIC_SUPABASE_URL=<sua-url>
 EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<sua-publishable-key>
 EXPO_PUBLIC_SUPABASE_STORAGE_URL=https://<seu-projeto>.supabase.co/storage/v1/object/public
+EXPO_PUBLIC_WEB_URL=https://<sua-url-web>.com
 ```
 
-O arquivo `.env` está no `.gitignore` e não deve ser commitado.
+- `EXPO_PUBLIC_WEB_URL` é usada no redirect do reset de senha (`/reset-password`).
+- O arquivo `.env` está no `.gitignore` e não deve ser commitado.
 
 ### 3. Banco de dados (Supabase)
 
-Rode os scripts em `src/data/sql/` **nessa ordem** no SQL Editor do Supabase:
+Rode os scripts em `src/infra/repositories/adapters/supabase/data/sql/` **nessa ordem** no SQL Editor do Supabase:
 
 1. `1-create-tables.sql` — tabelas + PostGIS
 2. `2-seed-categories.sql`
@@ -55,6 +57,8 @@ Rode os scripts em `src/data/sql/` **nessa ordem** no SQL Editor do Supabase:
 Opcional: `update-cities-cover-images.sql` se precisar ajustar paths de cover no Storage.
 
 Faça upload das imagens de capa no Storage (bucket/path alinhado aos seeds, ex.: `digital-nomad/cover/...`).
+
+Habilite **Email Auth** no Supabase (sign-up, sign-in e reset password).
 
 ### 4. Rodar o app
 
@@ -81,41 +85,61 @@ npm run web
 ## Estrutura do projeto
 
 ```text
-app/                    # Rotas (Expo Router)
-  (protected)/          # Área autenticada / tabs + city-details
+app/                         # Rotas (Expo Router)
+  (protected)/               # Área autenticada (tabs + city-details)
   sign-in.tsx
+  sign-up.tsx
+  reset-password.tsx
 src/
-  components/           # UI reutilizável (Box, Text, CityCard, Accordion, BottomSheet…)
-  containers/           # Composições de tela (filtros, seções de detalhes)
-  data/                 # Hooks de dados + SQL
-    sql/                # Schema, seeds e views do Supabase
-  hooks/                # useDebounce, useSafeArea…
-  supabase/             # Client, service, adapter e tipos gerados
-  theme/                # Restyle theme (cores, spacing, tipografia Poppins)
-assets/                 # Fontes, ícones IcoMoon, imagens
-docs/prs/               # Rascunhos de descrição de PRs
+  domain/                    # Models, contratos de repo e use-cases
+    auth/                    # AuthContext, IAuthRepo, operations
+    city/
+    category/
+  infra/                     # Implementações técnicas
+    operations/              # useAppQuery, useAppMutation
+    repositories/adapters/   # inMemory | supabase
+    storage/                 # StorageProvider + AsyncStorage
+  services/                  # FeedbackProvider (console | alert | toast)
+  ui/                        # Components, containers e theme
+  hooks/                     # useDebounce, useSafeArea…
+  utils/
+assets/                      # Fontes, ícones IcoMoon, imagens
+docs/prs/                    # Rascunhos de descrição de PRs
 ```
 
 ## Arquitetura (visão geral)
 
-- **UI / theme:** `@shopify/restyle` (`Box`, `Text`, tokens em `src/theme`)
-- **Navegação:** Expo Router com typed routes
-- **Animações:** Reanimated (Accordion, BottomSheet, list layout)
-- **Mapas:** `react-native-maps`
-- **Dados:** Supabase via `supabaseService` + `supabaseAdapter`
-- **Hooks de fetch:** `useFetchData` compartilhado por `useCities`, `useCategories`, `useCityDetails`, `useRelatedCities`
+Camadas principais:
+
+| Camada | Papel |
+| --- | --- |
+| `domain` | Regras e operations (`useAuthSignIn`, `useCityFindAll`…) |
+| `infra` | Adapters de dados/storage (Supabase, in-memory, AsyncStorage) |
+| `ui` | Apresentação (Restyle, forms, screens containers) |
+| `services` | Cross-cutting (feedback/Toast) |
+
+- **Repository Pattern:** `RepositoryProvider` troca entre `SupabaseRepositories` e `InMemoryRepository` no `_layout`.
+- **Auth:** sessão via `AuthContext` + splash até restore; telas protegidas em `(protected)`.
+- **Forms:** `react-hook-form` + Zod (ex.: `SignUpForm` / `SignUpSchema`).
+- **Feedback:** `ToastFeedback` (padrão), com adapters console/alert também disponíveis.
+- **Animações / mapas:** Reanimated e `react-native-maps`.
+
+Para testar sem backend, use temporariamente `InMemoryRepository` no root layout.
 
 ## Desenvolvimento
 
 - Tipagem: TypeScript strict; use a versão do workspace (`node_modules/typescript`)
 - Debug: Reactotron carrega só em `__DEV__` (`ReactotronConfig.js`)
-- Descrições de PR: adicione/atualize em `docs/prs/`
+- Labels e PRs: veja `docs/labels.md` e `docs/prs/`
 - Não commitar `.env`, `node_modules`, `.expo` ou `project-archives/`
 
 ## Documentação relacionada
 
 - [Expo SDK 54](https://docs.expo.dev/versions/v54.0.0/)
 - [Expo Router](https://docs.expo.dev/router/introduction/)
+- [Supabase Auth](https://supabase.com/docs/guides/auth)
 - [Supabase JS](https://supabase.com/docs/reference/javascript/introduction)
 - [Restyle](https://github.com/Shopify/restyle)
 - [Reanimated](https://docs.swmansion.com/react-native-reanimated/)
+- [react-hook-form](https://react-hook-form.com/)
+- [Zod](https://zod.dev/)
