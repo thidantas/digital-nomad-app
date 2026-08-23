@@ -7,6 +7,18 @@ const palette = {
   stoneGrey: "#5C5C5C",
   pureWhite: "#FFFFFF",
   transparent: "transparent",
+
+  fbErrorBg: "#3A1B1B",
+  fbErrorSurface: "#D32F2F",
+
+  fbSuccessBg: "#1E3320",
+  fbSuccessSurface: "#4CAF50",
+
+  fbWarningBg: "#1A2B3A",
+  fbWarningSurface: "#FFC107",
+
+  fbInfoBg: "#332B1A",
+  fbInfoSurface: "#42A5F5",
 };
 
 const theme = createTheme({
@@ -41,36 +53,41 @@ const theme = createTheme({
       fontSize: 16,
       lineHeight: 18,
     },
-    title28: {
-      fontSize: 28,
+    title14: {
+      fontSize: 14,
       fontFamily: "PoppinsSemiBold",
-      lineHeight: 30,
-    },
-    title22: {
-      fontSize: 22,
-      fontFamily: "PoppinsSemiBold",
-      lineHeight: 24,
+      lineHeight: 16,
     },
     title16: {
       fontSize: 16,
       fontFamily: "PoppinsSemiBold",
       lineHeight: 18,
     },
-    text18: {
-      fontSize: 18,
-      lineHeight: 20,
+    title22: {
+      fontSize: 22,
+      fontFamily: "PoppinsSemiBold",
+      lineHeight: 24,
     },
-    text16: {
-      fontSize: 16,
-      lineHeight: 18,
+    title28: {
+      fontSize: 28,
+      fontFamily: "PoppinsSemiBold",
+      lineHeight: 30,
+    },
+    text12: {
+      fontSize: 12,
+      lineHeight: 14,
     },
     text14: {
       fontSize: 14,
       lineHeight: 16,
     },
-    text12: {
-      fontSize: 12,
-      lineHeight: 14,
+    text16: {
+      fontSize: 16,
+      lineHeight: 18,
+    },
+    text18: {
+      fontSize: 18,
+      lineHeight: 20,
     },
   },
   borderRadii: {
