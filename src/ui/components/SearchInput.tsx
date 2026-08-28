@@ -28,6 +28,7 @@ export function SearchInput({
       style={{ borderColor: isFocused ? colors.primary : colors.gray1 }}
     >
       <TextInput
+        testID="search-input"
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
@@ -37,7 +38,6 @@ export function SearchInput({
         style={{
           ...textVariants.title16,
           color: colors.text,
-          //   backgroundColor: "green",
           height: "100%",
           width: "100%",
           flexShrink: 1,
