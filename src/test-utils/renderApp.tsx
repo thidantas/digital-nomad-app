@@ -23,6 +23,18 @@ import { FeedbackProvider } from "../services/feedbackService/FeedbackProvider";
 import { Toast } from "../ui/components/Toast";
 import theme from "../ui/theme/theme";
 
+import clonedeep from "lodash.clonedeep";
+import merge from "lodash.merge";
+import { Repositories } from "../domain/Repositories";
+
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
+
+function deepPartialMerge<T>(target: T, source: DeepPartial<T>): T {
+  return merge(clonedeep(target), source);
+}
+
 function MockedAuthProvider({ children }: React.PropsWithChildren) {
   const authUser: AuthUser = {
     email: "lucas@coffstack.com",
@@ -44,17 +56,25 @@ function MockedAuthProvider({ children }: React.PropsWithChildren) {
   );
 }
 
-export function renderApp(options?: { isAuthenticated?: boolean }) {
+export function renderApp(options?: {
+  isAuthenticated?: boolean;
+  repositories?: DeepPartial<Repositories>;
+}) {
   const FinalAuthProvider = options?.isAuthenticated
     ? MockedAuthProvider
     : AuthProvider;
+
+  const FinalRepositories = deepPartialMerge(
+    InMemoryRepository,
+    options?.repositories ?? {},
+  );
 
   function Wrapper({ children }: React.PropsWithChildren) {
     return (
       <StorageProvider storage={inMemoryStorage}>
         <FinalAuthProvider>
           <FeedbackProvider value={ToastFeedback}>
-            <RepositoryProvider value={InMemoryRepository}>
+            <RepositoryProvider value={FinalRepositories}>
               <ThemeProvider theme={theme}>
                 {children}
                 <Toast />
