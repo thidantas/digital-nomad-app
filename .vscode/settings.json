@@ -4,5 +4,6 @@
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
   },
-  "cSpell.words": ["supabase", "Supabase"]
+  "cSpell.words": ["supabase", "Supabase"],
+  "js/ts.experimental.useTsgo": false
 }
