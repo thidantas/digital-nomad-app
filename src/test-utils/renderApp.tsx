@@ -43,6 +43,7 @@ function MockedAuthProvider({ children }: React.PropsWithChildren) {
     email: "lucas@coffstack.com",
     id: "1",
     fullname: "Lucas Garcez",
+    createdAt: "2025-06-23T10:32:55.10671Z",
   };
 
   return (
