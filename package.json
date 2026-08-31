@@ -24,6 +24,7 @@
     "@react-navigation/native": "^7.1.8",
     "@shopify/restyle": "^2.4.5",
     "@supabase/supabase-js": "^2.109.0",
+    "@tanstack/react-query": "^5.102.8",
     "@types/lodash.clonedeep": "^4.5.9",
     "@types/lodash.merge": "^4.6.9",
     "expo": "~54.0.36",

@@ -9,6 +9,7 @@ import { Toast } from "@/src/ui/components/Toast";
 import { AppStack } from "@/src/ui/navigation/AppStack";
 import theme from "@/src/ui/theme/theme";
 import { ThemeProvider } from "@shopify/restyle";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
@@ -16,6 +17,8 @@ import "react-native-reanimated";
 if (__DEV__) {
   require("../ReactotronConfig");
 }
+
+const client = new QueryClient();
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -46,18 +49,20 @@ export default function RootLayout() {
   }
 
   return (
-    <StorageProvider storage={inMemoryStorage}>
-      <AuthProvider>
-        <RepositoryProvider value={InMemoryRepository}>
-          <ThemeProvider theme={theme}>
-            <FeedbackProvider value={ToastFeedback}>
-              <AppStack />
-              <StatusBar style="light" />
-              <Toast />
-            </FeedbackProvider>
-          </ThemeProvider>
-        </RepositoryProvider>
-      </AuthProvider>
-    </StorageProvider>
+    <QueryClientProvider client={client}>
+      <StorageProvider storage={inMemoryStorage}>
+        <AuthProvider>
+          <RepositoryProvider value={InMemoryRepository}>
+            <ThemeProvider theme={theme}>
+              <FeedbackProvider value={ToastFeedback}>
+                <AppStack />
+                <StatusBar style="light" />
+                <Toast />
+              </FeedbackProvider>
+            </ThemeProvider>
+          </RepositoryProvider>
+        </AuthProvider>
+      </StorageProvider>
+    </QueryClientProvider>
   );
 }
