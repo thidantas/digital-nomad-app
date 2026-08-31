@@ -1,7 +1,7 @@
 import { AuthProvider } from "@/src/domain/auth/AuthContext";
-import { InMemoryRepository } from "@/src/infra/repositories/adapters/inMemory";
+import { SupabaseRepositories } from "@/src/infra/repositories/adapters/supabase";
 import { RepositoryProvider } from "@/src/infra/repositories/RepositoryProvider";
-import { inMemoryStorage } from "@/src/infra/storage/adapters/InMemoryStorage";
+import { AsyncStorage } from "@/src/infra/storage/adapters/AsyncStorage";
 import { StorageProvider } from "@/src/infra/storage/StorageContext";
 import { ToastFeedback } from "@/src/services/feedbackService/adapters/toast/ToastFeedback";
 import { FeedbackProvider } from "@/src/services/feedbackService/FeedbackProvider";
@@ -50,9 +50,9 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={client}>
-      <StorageProvider storage={inMemoryStorage}>
+      <StorageProvider storage={AsyncStorage}>
         <AuthProvider>
-          <RepositoryProvider value={InMemoryRepository}>
+          <RepositoryProvider value={SupabaseRepositories}>
             <ThemeProvider theme={theme}>
               <FeedbackProvider value={ToastFeedback}>
                 <AppStack />
