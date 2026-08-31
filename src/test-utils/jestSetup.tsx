@@ -1,6 +1,7 @@
 jest.mock("@/src/ui/components/Icon", () => {
-  const { Text } = jest.requireActual("react-native");
+  const { View } = jest.requireActual("react-native");
+
   return {
-    Icon: ({ name }: { name: string }) => <Text>{name}</Text>,
+    Icon: ({ name }: { name: string }) => <View testID={`icon-${name}`} />,
   };
 });

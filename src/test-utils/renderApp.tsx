@@ -23,6 +23,7 @@ import { FeedbackProvider } from "../services/feedbackService/FeedbackProvider";
 import { Toast } from "../ui/components/Toast";
 import theme from "../ui/theme/theme";
 
+import NotFoundScreen from "@/app/+not-found";
 import clonedeep from "lodash.clonedeep";
 import merge from "lodash.merge";
 import { Repositories } from "../domain/Repositories";
@@ -95,6 +96,7 @@ export function renderApp(options?: {
       "(protected)/(tabs)/explore": () => <ExploreScreen />,
       "(protected)/(tabs)/profile": () => <ProfileScreen />,
       "(protected)/city-details/[id]": () => <CityDetails />,
+      "+not-found": () => <NotFoundScreen />,
       "sign-in": () => <SignInScreen />,
       "sign-up": () => <SignUpScreen />,
     },
