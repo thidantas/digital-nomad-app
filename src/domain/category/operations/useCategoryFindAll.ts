@@ -1,8 +1,12 @@
-import { useAppQuery } from "@/src/infra/operations/useAppQuery";
+import { useTanstackQuery } from "@/src/infra/operations/useTanstackQuery";
 import { useRepository } from "@/src/infra/repositories/RepositoryProvider";
+import { Category } from "../Category";
 
 export function useCategoryFindAll() {
   const { category } = useRepository();
 
-  return useAppQuery(() => category.findAll());
+  return useTanstackQuery<Category[]>({
+    queryKey: ["category"],
+    fetchData: () => category.findAll(),
+  });
 }
