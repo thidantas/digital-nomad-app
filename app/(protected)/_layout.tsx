@@ -9,7 +9,6 @@ export default function ProtectedLayout() {
   }
 
   if (!authUser) {
-    console.log("Redirecting to sign-in");
     return <Redirect href="/sign-in" />;
   }
 

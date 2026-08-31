@@ -24,9 +24,11 @@ import { Toast } from "../ui/components/Toast";
 import theme from "../ui/theme/theme";
 
 import NotFoundScreen from "@/app/+not-found";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import clonedeep from "lodash.clonedeep";
 import merge from "lodash.merge";
 import { Repositories } from "../domain/Repositories";
+import { queryClientOptions } from "./queryClientOptions";
 
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
@@ -61,6 +63,7 @@ export function renderApp(options?: {
   isAuthenticated?: boolean;
   repositories?: DeepPartial<Repositories>;
 }) {
+  const client = new QueryClient(queryClientOptions);
   const FinalAuthProvider = options?.isAuthenticated
     ? MockedAuthProvider
     : AuthProvider;
@@ -72,18 +75,20 @@ export function renderApp(options?: {
 
   function Wrapper({ children }: React.PropsWithChildren) {
     return (
-      <StorageProvider storage={inMemoryStorage}>
-        <FinalAuthProvider>
-          <FeedbackProvider value={ToastFeedback}>
-            <RepositoryProvider value={FinalRepositories}>
-              <ThemeProvider theme={theme}>
-                {children}
-                <Toast />
-              </ThemeProvider>
-            </RepositoryProvider>
-          </FeedbackProvider>
-        </FinalAuthProvider>
-      </StorageProvider>
+      <QueryClientProvider client={client}>
+        <StorageProvider storage={inMemoryStorage}>
+          <FinalAuthProvider>
+            <FeedbackProvider value={ToastFeedback}>
+              <RepositoryProvider value={FinalRepositories}>
+                <ThemeProvider theme={theme}>
+                  {children}
+                  <Toast />
+                </ThemeProvider>
+              </RepositoryProvider>
+            </FeedbackProvider>
+          </FinalAuthProvider>
+        </StorageProvider>
+      </QueryClientProvider>
     );
   }
 
