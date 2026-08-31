@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 
-import { Box } from "@/src/ui/components";
+import { Box } from "@/src/ui/components/Box";
 import { Button } from "@/src/ui/components/Button";
 import { TextInput } from "@/src/ui/components/TextInput";
 import { SignUpSchema, signUpSchema } from "./SignUpSchema";
@@ -21,6 +21,7 @@ export function SignUpForm({ onSubmit }: SignUpFormProps) {
         name="fullname"
         render={({ field, fieldState }) => (
           <TextInput
+            testID="fullname-input"
             label="Nome completo"
             value={field.value}
             onChangeText={field.onChange}
@@ -35,6 +36,7 @@ export function SignUpForm({ onSubmit }: SignUpFormProps) {
         name="email"
         render={({ field, fieldState }) => (
           <TextInput
+            testID="email-input"
             label="E-mail"
             autoCapitalize="none"
             keyboardType="email-address"
@@ -51,6 +53,7 @@ export function SignUpForm({ onSubmit }: SignUpFormProps) {
         name="password"
         render={({ field, fieldState }) => (
           <TextInput
+            testID="password-input"
             label="Senha"
             secureTextEntry
             value={field.value}
@@ -66,6 +69,7 @@ export function SignUpForm({ onSubmit }: SignUpFormProps) {
         name="confirmPassword"
         render={({ field, fieldState }) => (
           <TextInput
+            testID="confirm-password-input"
             label="Confirmar senha"
             secureTextEntry
             value={field.value}
@@ -76,7 +80,11 @@ export function SignUpForm({ onSubmit }: SignUpFormProps) {
         )}
       />
 
-      <Button title="Criar conta" onPress={onSubmitForm(onSubmit)} />
+      <Button
+        testID="submit-button"
+        title="Criar conta"
+        onPress={onSubmitForm(onSubmit)}
+      />
     </Box>
   );
 }

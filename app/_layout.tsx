@@ -1,15 +1,15 @@
 import { AuthProvider } from "@/src/domain/auth/AuthContext";
 import { InMemoryRepository } from "@/src/infra/repositories/adapters/inMemory";
 import { RepositoryProvider } from "@/src/infra/repositories/RepositoryProvider";
-import { AsyncStorage } from "@/src/infra/storage/adapters/AsyncStorage";
+import { inMemoryStorage } from "@/src/infra/storage/adapters/InMemoryStorage";
 import { StorageProvider } from "@/src/infra/storage/StorageContext";
 import { ToastFeedback } from "@/src/services/feedbackService/adapters/toast/ToastFeedback";
 import { FeedbackProvider } from "@/src/services/feedbackService/FeedbackProvider";
 import { Toast } from "@/src/ui/components/Toast";
+import { AppStack } from "@/src/ui/navigation/AppStack";
 import theme from "@/src/ui/theme/theme";
 import { ThemeProvider } from "@shopify/restyle";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
@@ -46,27 +46,12 @@ export default function RootLayout() {
   }
 
   return (
-    <StorageProvider storage={AsyncStorage}>
+    <StorageProvider storage={inMemoryStorage}>
       <AuthProvider>
         <RepositoryProvider value={InMemoryRepository}>
           <ThemeProvider theme={theme}>
             <FeedbackProvider value={ToastFeedback}>
-              <Stack
-                screenOptions={{
-                  contentStyle: { backgroundColor: theme.colors.background },
-                  headerShown: false,
-                  fullScreenGestureEnabled: true,
-                }}
-              >
-                <Stack.Screen
-                  name="(protected)"
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen name="+not-found" />
-                <Stack.Screen name="sign-in" />
-                <Stack.Screen name="sign-up" />
-                <Stack.Screen name="reset-password" />
-              </Stack>
+              <AppStack />
               <StatusBar style="light" />
               <Toast />
             </FeedbackProvider>

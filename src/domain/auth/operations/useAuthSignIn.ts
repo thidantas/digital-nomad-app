@@ -24,7 +24,6 @@ export function useAuthSignIn() {
         message: "Erro ao fazer login",
         description: (error as Error).message ?? "Erro desconhecido",
       });
-      console.log(error);
     },
   });
 }
