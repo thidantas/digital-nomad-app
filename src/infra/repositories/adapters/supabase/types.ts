@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.15";
+    PostgrestVersion: "14.5";
   };
   graphql_public: {
     Tables: {
@@ -211,6 +211,53 @@ export type Database = {
           {
             foreignKeyName: "city_cities_related_city_id_fkey";
             columns: ["related_city_id"];
+            isOneToOne: false;
+            referencedRelation: "related_cities";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      favorite_cities: {
+        Row: {
+          city_id: string;
+          created_at: string | null;
+          user_id: string;
+        };
+        Insert: {
+          city_id: string;
+          created_at?: string | null;
+          user_id: string;
+        };
+        Update: {
+          city_id?: string;
+          created_at?: string | null;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "favorite_cities_city_id_fkey";
+            columns: ["city_id"];
+            isOneToOne: false;
+            referencedRelation: "cities";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "favorite_cities_city_id_fkey";
+            columns: ["city_id"];
+            isOneToOne: false;
+            referencedRelation: "cities_with_categories";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "favorite_cities_city_id_fkey";
+            columns: ["city_id"];
+            isOneToOne: false;
+            referencedRelation: "cities_with_full_info";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "favorite_cities_city_id_fkey";
+            columns: ["city_id"];
             isOneToOne: false;
             referencedRelation: "related_cities";
             referencedColumns: ["id"];
