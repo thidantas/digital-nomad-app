@@ -1,14 +1,19 @@
 import { AuthProvider } from "@/src/domain/auth/AuthContext";
-import { InMemoryRepository } from "@/src/infra/repositories/adapters/inMemory";
+import { SupabaseRepositories } from "@/src/infra/repositories/adapters/supabase";
 import { RepositoryProvider } from "@/src/infra/repositories/RepositoryProvider";
-import { inMemoryStorage } from "@/src/infra/storage/adapters/InMemoryStorage";
+import { AsyncStorage } from "@/src/infra/storage/adapters/AsyncStorage";
 import { StorageProvider } from "@/src/infra/storage/StorageContext";
 import { ToastFeedback } from "@/src/services/feedbackService/adapters/toast/ToastFeedback";
 import { FeedbackProvider } from "@/src/services/feedbackService/FeedbackProvider";
 import { Toast } from "@/src/ui/components/Toast";
 import { AppStack } from "@/src/ui/navigation/AppStack";
 import theme from "@/src/ui/theme/theme";
+import {
+  DarkTheme,
+  ThemeProvider as NavigationThemeProvider,
+} from "@react-navigation/native";
 import { ThemeProvider } from "@shopify/restyle";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
@@ -16,6 +21,17 @@ import "react-native-reanimated";
 if (__DEV__) {
   require("../ReactotronConfig");
 }
+
+const client = new QueryClient();
+
+const navigationTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    background: theme.colors.background,
+    card: theme.colors.background,
+  },
+};
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -46,18 +62,22 @@ export default function RootLayout() {
   }
 
   return (
-    <StorageProvider storage={inMemoryStorage}>
-      <AuthProvider>
-        <RepositoryProvider value={InMemoryRepository}>
-          <ThemeProvider theme={theme}>
-            <FeedbackProvider value={ToastFeedback}>
-              <AppStack />
-              <StatusBar style="light" />
-              <Toast />
-            </FeedbackProvider>
-          </ThemeProvider>
-        </RepositoryProvider>
-      </AuthProvider>
-    </StorageProvider>
+    <QueryClientProvider client={client}>
+      <StorageProvider storage={AsyncStorage}>
+        <AuthProvider>
+          <RepositoryProvider value={SupabaseRepositories}>
+            <ThemeProvider theme={theme}>
+              <NavigationThemeProvider value={navigationTheme}>
+                <FeedbackProvider value={ToastFeedback}>
+                  <AppStack />
+                  <StatusBar style="light" />
+                  <Toast />
+                </FeedbackProvider>
+              </NavigationThemeProvider>
+            </ThemeProvider>
+          </RepositoryProvider>
+        </AuthProvider>
+      </StorageProvider>
+    </QueryClientProvider>
   );
 }

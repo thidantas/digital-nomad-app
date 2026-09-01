@@ -1,4 +1,4 @@
-import { useAppMutation } from "@/src/infra/operations/useAppMutation";
+import { useTanstackMutation } from "@/src/infra/operations/useTanstackMutation";
 import { useRepository } from "@/src/infra/repositories/RepositoryProvider";
 import { useFeedbackService } from "@/src/services/feedbackService/FeedbackProvider";
 import { useAuth } from "../AuthContext";
@@ -9,8 +9,11 @@ export function useAuthSignIn() {
   const feedbackService = useFeedbackService();
   const { saveAuthUser } = useAuth();
 
-  return useAppMutation<AuthUser, { email: string; password: string }>({
-    mutateFn: ({ email, password }) => auth.signIn(email, password),
+  const { mutate, error, isPending } = useTanstackMutation<
+    AuthUser,
+    { email: string; password: string }
+  >({
+    mutationFn: ({ email, password }) => auth.signIn(email, password),
     onSuccess: (authUser) => {
       saveAuthUser(authUser);
       feedbackService.send({
@@ -22,8 +25,14 @@ export function useAuthSignIn() {
       feedbackService.send({
         type: "error",
         message: "Erro ao fazer login",
-        description: (error as Error).message ?? "Erro desconhecido",
+        description: error.message ?? "Erro desconhecido",
       });
     },
   });
+
+  return {
+    mutate,
+    error,
+    isPending,
+  };
 }

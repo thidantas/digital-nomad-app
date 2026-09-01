@@ -1,13 +1,24 @@
 import { useRepository } from "@/src/infra/repositories/RepositoryProvider";
 
-import { useAppQuery } from "@/src/infra/operations/useAppQuery";
+import { useTanstackQuery } from "@/src/infra/operations/useTanstackQuery";
 import { CityFindAllFilters } from "../ICityRepo";
 
 export function useCityFindAll(filters: CityFindAllFilters) {
   const { city } = useRepository();
 
-  return useAppQuery(
-    () => city.findAll(filters),
-    [filters.name, filters.categoryId],
-  );
+  const { data, error, isLoading } = useTanstackQuery({
+    queryKey: ["city", filters.name, filters.categoryId],
+    fetchData: () => city.findAll(filters),
+  });
+
+  return {
+    data,
+    error,
+    isLoading,
+  };
+
+  // return useAppQuery(
+  //   () => city.findAll(filters),
+  //   [filters.name, filters.categoryId],
+  // );
 }

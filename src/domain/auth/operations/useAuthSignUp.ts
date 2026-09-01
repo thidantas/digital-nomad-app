@@ -1,7 +1,5 @@
-import {
-  useAppMutation,
-  UseAppMutationOptions,
-} from "@/src/infra/operations/useAppMutation";
+import { UseAppMutationOptions } from "@/src/infra/operations/useAppMutation";
+import { useTanstackMutation } from "@/src/infra/operations/useTanstackMutation";
 import { useRepository } from "@/src/infra/repositories/RepositoryProvider";
 import { useFeedbackService } from "@/src/services/feedbackService/FeedbackProvider";
 import { AuthSignUpParams } from "../IAuthRepo";
@@ -10,8 +8,8 @@ export function useAuthSignUp(options?: UseAppMutationOptions<void>) {
   const { auth } = useRepository();
   const feedbackService = useFeedbackService();
 
-  return useAppMutation<void, AuthSignUpParams>({
-    mutateFn: (params) => auth.signUp(params),
+  return useTanstackMutation<void, AuthSignUpParams>({
+    mutationFn: (params) => auth.signUp(params),
     onSuccess: () => {
       options?.onSuccess?.();
       feedbackService.send({

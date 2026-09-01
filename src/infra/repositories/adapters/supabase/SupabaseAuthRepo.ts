@@ -36,4 +36,13 @@ export class SupabaseAuthRepo implements IAuthRepo {
       redirectTo: `${process.env.EXPO_PUBLIC_WEB_URL}/reset-password`,
     });
   };
+
+  getUser = async (): Promise<AuthUser> => {
+    const { data, error } = await supabase.auth.getUser();
+    if (error) {
+      throw new Error("error get User");
+    }
+
+    return supabaseAdapter.toAuthUser(data.user);
+  };
 }
