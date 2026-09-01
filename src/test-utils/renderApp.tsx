@@ -23,7 +23,10 @@ import { FeedbackProvider } from "../services/feedbackService/FeedbackProvider";
 import { Toast } from "../ui/components/Toast";
 import theme from "../ui/theme/theme";
 
+import UpdatePasswordScreen from "@/app/(protected)/update-password";
+import UpdateProfileScreen from "@/app/(protected)/update-profile";
 import NotFoundScreen from "@/app/+not-found";
+import ResetPasswordScreen from "@/app/reset-password";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import clonedeep from "lodash.clonedeep";
 import merge from "lodash.merge";
@@ -102,9 +105,12 @@ export function renderApp(options?: {
       "(protected)/(tabs)/explore": () => <ExploreScreen />,
       "(protected)/(tabs)/profile": () => <ProfileScreen />,
       "(protected)/city-details/[id]": () => <CityDetails />,
+      "(protected)/update-profile": () => <UpdateProfileScreen />,
+      "(protected)/update-password": () => <UpdatePasswordScreen />,
       "+not-found": () => <NotFoundScreen />,
       "sign-in": () => <SignInScreen />,
       "sign-up": () => <SignUpScreen />,
+      "reset-password": () => <ResetPasswordScreen />,
     },
     { wrapper: Wrapper, initialUrl: "/" },
   );
