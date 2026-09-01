@@ -8,6 +8,10 @@ import { FeedbackProvider } from "@/src/services/feedbackService/FeedbackProvide
 import { Toast } from "@/src/ui/components/Toast";
 import { AppStack } from "@/src/ui/navigation/AppStack";
 import theme from "@/src/ui/theme/theme";
+import {
+  DarkTheme,
+  ThemeProvider as NavigationThemeProvider,
+} from "@react-navigation/native";
 import { ThemeProvider } from "@shopify/restyle";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
@@ -19,6 +23,15 @@ if (__DEV__) {
 }
 
 const client = new QueryClient();
+
+const navigationTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    background: theme.colors.background,
+    card: theme.colors.background,
+  },
+};
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -54,11 +67,13 @@ export default function RootLayout() {
         <AuthProvider>
           <RepositoryProvider value={SupabaseRepositories}>
             <ThemeProvider theme={theme}>
-              <FeedbackProvider value={ToastFeedback}>
-                <AppStack />
-                <StatusBar style="light" />
-                <Toast />
-              </FeedbackProvider>
+              <NavigationThemeProvider value={navigationTheme}>
+                <FeedbackProvider value={ToastFeedback}>
+                  <AppStack />
+                  <StatusBar style="light" />
+                  <Toast />
+                </FeedbackProvider>
+              </NavigationThemeProvider>
             </ThemeProvider>
           </RepositoryProvider>
         </AuthProvider>
