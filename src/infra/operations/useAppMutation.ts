@@ -15,6 +15,9 @@ type UseAppMutationParams<TData, TVariables> = {
   mutateFn: (variable: TVariables) => Promise<TData>;
 } & UseAppMutationOptions<TData>;
 
+/**
+ * @deprecated Use {@link useTanstackMutation} instead.
+ */
 export function useAppMutation<TData, TVariables>({
   mutateFn,
   onSuccess,

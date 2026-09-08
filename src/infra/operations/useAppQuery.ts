@@ -6,6 +6,9 @@ type UseFetchDataReturn<DataT> = {
   error: unknown;
 };
 
+/**
+ * @deprecated Use {@link useTanstackQuery} instead.
+ */
 export function useAppQuery<DataT>(
   fetchData: () => Promise<DataT>,
   dependencies: React.DependencyList = [],

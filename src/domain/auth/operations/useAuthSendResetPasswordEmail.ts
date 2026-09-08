@@ -1,7 +1,5 @@
-import {
-  useAppMutation,
-  UseAppMutationOptions,
-} from "@/src/infra/operations/useAppMutation";
+import { UseAppMutationOptions } from "@/src/infra/operations/useAppMutation";
+import { useTanstackMutation } from "@/src/infra/operations/useTanstackMutation";
 import { useRepository } from "@/src/infra/repositories/RepositoryProvider";
 import { useFeedbackService } from "@/src/services/feedbackService/FeedbackProvider";
 
@@ -11,8 +9,8 @@ export function useAuthSendResetPasswordEmail(
   const { auth } = useRepository();
   const feedbackService = useFeedbackService();
 
-  return useAppMutation<void, { email: string }>({
-    mutateFn: ({ email }) => auth.sendResetPasswordEmail(email),
+  return useTanstackMutation<void, { email: string }>({
+    mutationFn: ({ email }) => auth.sendResetPasswordEmail(email),
     onSuccess: () => {
       options?.onSuccess?.();
       feedbackService.send({

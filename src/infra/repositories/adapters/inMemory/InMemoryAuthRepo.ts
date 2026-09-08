@@ -1,5 +1,10 @@
 import { AuthUser } from "@/src/domain/auth/AuthUser";
-import { AuthSignUpParams, IAuthRepo } from "@/src/domain/auth/IAuthRepo";
+import {
+  AuthSignUpParams,
+  AuthUpdatePasswordParams,
+  AuthUpdateProfileParams,
+  IAuthRepo,
+} from "@/src/domain/auth/IAuthRepo";
 import { authUsers } from "./data/authUsers";
 
 export class InMemoryAuthRepo implements IAuthRepo {
@@ -30,5 +35,17 @@ export class InMemoryAuthRepo implements IAuthRepo {
 
   async sendResetPasswordEmail(email: string): Promise<void> {
     console.log("the reset password has been sent:", email);
+  }
+
+  async getUser(): Promise<AuthUser> {
+    return authUsers[0];
+  }
+
+  async updateProfile(_params: AuthUpdateProfileParams): Promise<void> {
+    return;
+  }
+
+  async updatePassword(_params: AuthUpdatePasswordParams): Promise<void> {
+    return;
   }
 }
