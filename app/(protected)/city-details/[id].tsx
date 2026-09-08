@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { Pressable } from "react-native";
-import { useSharedValue } from "react-native-reanimated";
+import Animated, { FadeIn, useSharedValue } from "react-native-reanimated";
 
 import { useCityFindById } from "@/src/domain/city/operations/useCityFindById";
 import { Divider } from "@/src/ui/components";
@@ -13,19 +13,29 @@ import { CityDetailsMap } from "@/src/ui/containers/CityDetailsMap";
 import { CityDetailsRelatedCities } from "@/src/ui/containers/CityDetailsRelatedCities";
 import { CityDetailsTouristAttractions } from "@/src/ui/containers/CityDetailsTouristAttractions";
 
+const PAGE_ANIMATION_TIME = 1000;
+
 export default function CityDetails() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data: city } = useCityFindById(id);
+  const { data: city, error, isLoading } = useCityFindById(id);
 
   const bottomSheetIsOpen = useSharedValue(false);
   function toggleBottomSheet() {
     bottomSheetIsOpen.value = !bottomSheetIsOpen.value;
   }
 
-  if (!city) {
+  if (isLoading) {
     return (
       <Screen flex={1} justifyContent="center" alignItems="center">
-        <Text>City not found</Text>
+        <Text>Carregando dados...</Text>
+      </Screen>
+    );
+  }
+
+  if (error || !city) {
+    return (
+      <Screen flex={1} justifyContent="center" alignItems="center">
+        <Text>Erro ao carregar cidade</Text>
       </Screen>
     );
   }
@@ -33,40 +43,44 @@ export default function CityDetails() {
   return (
     <>
       <Screen style={{ paddingHorizontal: 0 }} scrollable>
-        <CityDetailsHeader
-          id={city.id}
-          coverImage={city.coverImage}
-          categories={city.categories}
-          isFavorite={city.isFavorite}
-        />
-        <CityDetailsInfo
-          name={city.name}
-          country={city.country}
-          description={city.description}
-        />
+        <Animated.View entering={FadeIn.duration(PAGE_ANIMATION_TIME)}>
+          <CityDetailsHeader
+            id={city.id}
+            coverImage={city.coverImage}
+            categories={city.categories}
+            isFavorite={city.isFavorite}
+          />
+          <CityDetailsInfo
+            name={city.name}
+            country={city.country}
+            description={city.description}
+          />
 
-        <Divider paddingHorizontal="default" />
+          <Divider paddingHorizontal="default" />
 
-        <CityDetailsTouristAttractions
-          touristAttractions={city.touristAttractions}
-        />
+          <CityDetailsTouristAttractions
+            touristAttractions={city.touristAttractions}
+          />
 
-        <Divider paddingHorizontal="default" />
+          <Divider paddingHorizontal="default" />
 
-        <Pressable onPress={toggleBottomSheet}>
-          <CityDetailsMap location={city.location} />
-        </Pressable>
+          <Pressable onPress={toggleBottomSheet}>
+            <CityDetailsMap location={city.location} />
+          </Pressable>
 
-        <Divider paddingHorizontal="default" />
+          <Divider paddingHorizontal="default" />
 
-        <CityDetailsRelatedCities id={city.id} />
+          <CityDetailsRelatedCities id={city.id} />
+        </Animated.View>
       </Screen>
 
-      <BottomSheetMap
-        location={city.location}
-        isOpen={bottomSheetIsOpen}
-        onPress={toggleBottomSheet}
-      />
+      <Animated.View entering={FadeIn.duration(0).delay(PAGE_ANIMATION_TIME)}>
+        <BottomSheetMap
+          location={city.location}
+          isOpen={bottomSheetIsOpen}
+          onPress={toggleBottomSheet}
+        />
+      </Animated.View>
     </>
   );
 }
