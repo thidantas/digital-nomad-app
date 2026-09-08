@@ -1,7 +1,8 @@
 import { useAuthGetUser } from "@/src/domain/auth/operations/useAuthGetUser";
 import { useAuthSignOut } from "@/src/domain/auth/operations/useAuthSignOut";
 import { useFindAllFavorites } from "@/src/domain/city/operations/useFindAllFavorites";
-import { Box, CityCard, Icon, Screen, Text } from "@/src/ui/components";
+import { Box, Icon, Screen, Text } from "@/src/ui/components";
+import { FavoriteCityCard } from "@/src/ui/components/FavoriteCityCard";
 import { ProfileHeader } from "@/src/ui/containers/Profile/ProfileHeader";
 import { Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,9 +17,11 @@ export default function ProfileScreen() {
       <SafeAreaView>
         {authUser && <ProfileHeader authUser={authUser} />}
 
-        {favoriteList?.map((cityPreview) => (
-          <CityCard key={cityPreview.id} cityPreview={cityPreview} />
-        ))}
+        <Box mt="s16" rowGap="s16">
+          {favoriteList?.map((cityPreview) => (
+            <FavoriteCityCard key={cityPreview.id} cityPreview={cityPreview} />
+          ))}
+        </Box>
 
         <Pressable onPress={signOut}>
           <Box
