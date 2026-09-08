@@ -5,7 +5,7 @@ import { router } from "expo-router";
 import { ScrollView } from "react-native";
 import { BlackOpacity, CategoryPill, PILL_HEIGHT } from "../components";
 import { Box } from "../components/Box";
-import { Icon } from "../components/Icon";
+import { CityFavoriteButton } from "../components/CityFavoriteButton";
 import { IconButton } from "../components/IconButton";
 
 type CityDetailsHeaderProps = Pick<
@@ -14,6 +14,7 @@ type CityDetailsHeaderProps = Pick<
 >;
 
 export function CityDetailsHeader({
+  id,
   coverImage,
   categories,
   isFavorite,
@@ -38,11 +39,7 @@ export function CityDetailsHeader({
           style={{ paddingTop: top }}
         >
           <IconButton iconName="Chevron-left" onPress={router.back} />
-          <Icon
-            size={30}
-            name={isFavorite ? "Favorite-fill" : "Favorite-outline"}
-            color={isFavorite ? "primary" : "text"}
-          />
+          <CityFavoriteButton size={30} city={{ id, isFavorite }} />
         </Box>
       </ImageBackground>
       <ScrollView
