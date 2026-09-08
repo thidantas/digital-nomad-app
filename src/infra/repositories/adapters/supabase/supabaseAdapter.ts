@@ -96,4 +96,5 @@ export const supabaseAdapter = {
   toCity,
   toCityPreview,
   toAuthUser,
+  toCategory,
 };
