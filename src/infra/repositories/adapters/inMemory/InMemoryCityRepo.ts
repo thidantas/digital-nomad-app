@@ -1,5 +1,11 @@
 import { City, CityPreview } from "@/src/domain/city/City";
-import { CityFindAllFilters, ICityRepo } from "@/src/domain/city/ICityRepo";
+import {
+  CitiesGroupedByCategory,
+  CityFindAllFilters,
+  CityToggleFavoriteParams,
+  ICityRepo,
+} from "@/src/domain/city/ICityRepo";
+import { categories } from "./data/categories";
 import { cities } from "./data/cities";
 
 export class InMemoryCityRepo implements ICityRepo {
@@ -43,5 +49,34 @@ export class InMemoryCityRepo implements ICityRepo {
     // throw new Error("server is down!");
 
     return cityPreviewList;
+  }
+
+  async toggleFavorite({
+    cityId,
+    isFavorite,
+  }: CityToggleFavoriteParams): Promise<void> {
+    const city = cities.find((city) => city.id === cityId);
+    if (!city) {
+      throw new Error("City not found");
+    }
+
+    city.isFavorite = !isFavorite;
+  }
+
+  async findAllFavorites(): Promise<CityPreview[]> {
+    return cities.filter((city) => city.isFavorite);
+  }
+
+  async findGroupedByCategory(): Promise<CitiesGroupedByCategory[]> {
+    return categories
+      .map((category) => ({
+        category,
+        cities: cities.filter((city) =>
+          city.categories.some(
+            (cityCategory) => cityCategory.id === category.id,
+          ),
+        ),
+      }))
+      .filter((group) => group.cities.length > 0);
   }
 }
