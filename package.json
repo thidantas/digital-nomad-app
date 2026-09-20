@@ -13,7 +13,8 @@
     "test:watch": "jest --watch",
     "test:watch:all": "jest --watchAll",
     "test:coverage": "jest --coverage",
-    "test:coverage:watch": "jest --coverage --watch"
+    "test:coverage:watch": "jest --coverage --watch",
+    "test:ci": "jest --ci --verbose"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
