@@ -16,3 +16,6 @@ jobs:
 
       - name: check ESLint
         run: npm run lint
+
+      - name: test workflow
+        run: echo "Hello World"
