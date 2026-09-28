@@ -25,7 +25,10 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.thiagolabs.digitalnomadapp"
+      "package": "com.thiagolabs.digitalnomadapp",
+      "config": {
+        "googleMaps": {}
+      }
     },
     "web": {
       "output": "static",
@@ -57,6 +60,12 @@
       "eas": {
         "projectId": "d3771cd8-bd4a-441a-992f-db16edc0f631"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/d3771cd8-bd4a-441a-992f-db16edc0f631"
     }
   }
 }
