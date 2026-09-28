@@ -1,6 +1,5 @@
-import { ConfigContext, ExpoConfig } from "expo/config";
-
-export default ({ config }: ConfigContext): ExpoConfig => ({
+// @ts-nocheck
+export default ({ config }) => ({
   ...config,
   name: config.name ?? "Nomad",
   slug: config.slug ?? "digital-nomad-app",

@@ -19,7 +19,7 @@ import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
 if (__DEV__) {
-  require("../ReactotronConfig");
+  void import("../ReactotronConfig");
 }
 
 const client = new QueryClient();

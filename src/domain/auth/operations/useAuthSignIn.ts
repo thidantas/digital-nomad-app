@@ -1,6 +1,7 @@
 import { useTanstackMutation } from "@/src/infra/operations/useTanstackMutation";
 import { useRepository } from "@/src/infra/repositories/RepositoryProvider";
 import { useFeedbackService } from "@/src/services/feedbackService/FeedbackProvider";
+import { errorUtils } from "@/src/utils/errorUtils";
 import { useAuth } from "../AuthContext";
 import { AuthUser } from "../AuthUser";
 
@@ -25,7 +26,7 @@ export function useAuthSignIn() {
       feedbackService.send({
         type: "error",
         message: "Erro ao fazer login",
-        description: error.message ?? "Erro desconhecido",
+        description: errorUtils.getErrorMessage(error) ?? "Erro desconhecido",
       });
     },
   });

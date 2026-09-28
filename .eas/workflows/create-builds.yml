@@ -1,0 +1,24 @@
+name: Create Production Build
+
+# CD adiado: sem `on`, o EAS não dispara este workflow no push.
+# Quando formos publicar de verdade, descomentar:
+# on:
+#   push:
+#     branches: ["main"]
+# Até lá, rodar manualmente com:
+# eas workflow:run .eas/workflows/create-builds.yml
+
+jobs:
+  build_android:
+    name: Build Android App
+    type: build
+    params:
+      platform: android
+      profile: production
+
+  build_ios:
+    name: Build iOS App
+    type: build
+    params:
+      platform: ios
+      profile: production

@@ -1,0 +1,26 @@
+name: iOS - Build and Submit
+
+# CD adiado: sem `on`, o EAS não dispara este workflow no push.
+# Quando formos publicar de verdade, descomentar:
+# on:
+#   push:
+#     branches: ["main"]
+# Até lá, rodar manualmente com:
+# eas workflow:run .eas/workflows/submit-ios.yml
+
+jobs:
+  build_ios:
+    name: Build iOS App
+    type: build
+    params:
+      platform: ios
+      profile: production
+
+  submit_ios:
+    name: Submit to App Store
+    needs: [build_ios]
+    type: submit
+    params:
+      build_id: ${{ needs.build_ios.outputs.build_id }}
+    env:
+      EXPO_DEBUG: "1"

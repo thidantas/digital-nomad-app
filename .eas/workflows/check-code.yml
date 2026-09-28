@@ -1,0 +1,24 @@
+name: Check Code
+
+on:
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  check-code:
+    name: Check Code Jobs
+    steps:
+      - uses: eas/checkout
+      - uses: eas/install_node_modules
+
+      - name: check TypeScript
+        run: npm run typecheck
+
+      - name: check ESLint
+        run: npm run lint
+
+      - name: check tests
+        run: npm run test:ci
+
+      - name: test workflow
+        run: echo "Hello World"

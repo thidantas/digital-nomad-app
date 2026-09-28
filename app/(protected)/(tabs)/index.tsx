@@ -11,6 +11,7 @@ import { useDebounce } from "@/src/hooks/useDebounce";
 import { Box, CityCard, Screen, Text } from "@/src/ui/components";
 import { CityFilter } from "@/src/ui/containers/CityFilter";
 import { useAppTheme } from "@/src/ui/theme/useAppTheme";
+import { errorUtils } from "@/src/utils/errorUtils";
 
 export default function HomeScreen() {
   const { spacing } = useAppTheme();
@@ -51,7 +52,9 @@ export default function HomeScreen() {
       Content = <Text>carregando cidades...</Text>;
     } else if (error) {
       Content = (
-        <Text>erro ao carregar cidades. {(error as Error).message}</Text>
+        <Text>
+          erro ao carregar cidades. {errorUtils.getErrorMessage(error)}
+        </Text>
       );
     } else {
       Content = <Text>não há cidades no momento</Text>;

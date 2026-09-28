@@ -1,4 +1,4 @@
-import { ScrollView, useWindowDimensions } from "react-native";
+import { ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Box } from "../components/Box";
@@ -16,10 +16,6 @@ export function CityDetailsRelatedCities({ id }: Props) {
 
   const { spacing } = useAppTheme();
   const { bottom } = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
-
-  const cardWith = width * 0.7;
-  const cardHeight = cardWith * 0.9;
 
   return (
     <Box style={{ paddingBottom: bottom }}>
