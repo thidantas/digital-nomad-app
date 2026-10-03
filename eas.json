@@ -14,7 +14,16 @@
     },
     "preview": {
       "distribution": "internal",
-      "channel": "preview",
+      "channel": "preview"
+    },
+    "maestro": {
+      "distribution": "internal",
+      "environment": "preview",
+      "channel": "maestro",
+      "withoutCredentials": true,
+      "ios": {
+        "simulator": true
+      },
       "android": {
         "buildType": "apk"
       }
