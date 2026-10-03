@@ -1,0 +1,22 @@
+appId: com.thiagolabs.digitalnomadapp
+---
+- launchApp
+
+- tapOn:
+    id: "email-input"
+- inputText: "thiagolabs.testes@gmail.com"
+
+- tapOn:
+    id: "password-input"
+- inputText: "12345678"
+
+# Tocar num texto que não é botão fecha o teclado.
+# hideKeyboard no Android dispara o voltar e minimiza o app.
+- tapOn: "Bem-vindo"
+
+- tapOn:
+    id: "sign-in-button"
+
+- extendedWaitUntil:
+    visible: ".*signed in.*"
+    timeout: 15000
