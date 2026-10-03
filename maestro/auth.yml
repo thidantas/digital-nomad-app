@@ -20,3 +20,16 @@ appId: com.thiagolabs.digitalnomadapp
 - extendedWaitUntil:
     visible: ".*signed in.*"
     timeout: 15000
+
+# Sign out
+- tapOn:
+    text: .*Perfil.*
+
+- repeat:
+    while:
+      notVisible: ".*Bem-vindo.*"
+    commands:
+      - tapOn:
+          id: "sign-out-button"
+
+- assertVisible: ".*Bem-vindo.*"
