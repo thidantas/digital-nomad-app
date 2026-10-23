@@ -16,6 +16,18 @@
       "distribution": "internal",
       "channel": "preview"
     },
+    "maestro": {
+      "distribution": "internal",
+      "environment": "preview",
+      "channel": "maestro",
+      "withoutCredentials": true,
+      "ios": {
+        "simulator": true
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
     "production": {
       "autoIncrement": true,
       "channel": "production"

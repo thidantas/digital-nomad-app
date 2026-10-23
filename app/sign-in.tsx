@@ -26,6 +26,7 @@ export default function SignInScreen() {
           Bem-vindo
         </Text>
         <TextInput
+          testID="email-input"
           // errorMessage="mensagem de erro"
           autoCapitalize="none"
           label="E-mail"
@@ -34,6 +35,7 @@ export default function SignInScreen() {
           placeholder="seu email"
         />
         <TextInput
+          testID="password-input"
           autoCapitalize="none"
           label="Senha"
           secureTextEntry
@@ -48,7 +50,7 @@ export default function SignInScreen() {
           </Text>
         </Link>
 
-        <Button title="Entrar" onPress={handleSignIn} />
+        <Button testID="sign-in-button" title="Entrar" onPress={handleSignIn} />
 
         <TextLink
           href="/sign-up"

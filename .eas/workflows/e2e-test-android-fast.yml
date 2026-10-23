@@ -1,0 +1,15 @@
+name: e2e-test-android-fast
+
+# Atalho manual: reutiliza uma build Android já gerada, então não tem gatilho.
+# Preencha build_id antes de rodar. Com a string vazia o job falha.
+# eas workflow:run .eas/workflows/e2e-test-android-fast.yml
+
+jobs:
+  maestro_test:
+    type: maestro
+    runs_on: linux-large-nested-virtualization
+    params:
+      # Espaço para o id da build Android já gerada.
+      # Quem for aplicar este workflow mais à frente cola esse build id aqui.
+      build_id: ""
+      flow_path: ["maestro/auth.yml", "maestro/edit-profile.yml"]
