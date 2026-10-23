@@ -1,0 +1,24 @@
+name: e2e-test-android
+
+# E2E adiado: sem `on`, o EAS não dispara este workflow.
+# Quando formos rodar de verdade, descomentar o pull request:
+# on:
+#   pull_request:
+#     branches: ["*"]
+# O comando manual ainda gera a build e executa o Maestro:
+# eas workflow:run .eas/workflows/e2e-test-android.yml
+
+jobs:
+  build_android_for_e2e:
+    type: build
+    params:
+      platform: android
+      profile: maestro # your eas build profile for E2E test
+
+  maestro_test:
+    needs: [build_android_for_e2e]
+    type: maestro
+    runs_on: linux-large-nested-virtualization
+    params:
+      build_id: ${{ needs.build_android_for_e2e.outputs.build_id }}
+      flow_path: ["maestro/auth.yml", "maestro/edit-profile.yml"]
