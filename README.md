@@ -133,9 +133,44 @@ Para testar sem backend, use temporariamente `InMemoryRepository` no root layout
 - Labels e PRs: veja `docs/labels.md` e `docs/prs/`
 - Não commitar `.env`, `node_modules`, `.expo` ou `project-archives/`
 
+## Testes E2E (Maestro)
+
+Os fluxos ficam em `maestro/` (`auth.yml`, `sign-in.yml`, `edit-profile.yml`). Os workflows do EAS estão em `.eas/workflows/`. O bloco `on` de Android e iOS está comentado, então o EAS não dispara esses testes sozinho.
+
+| Workflow | O que faz |
+| --- | --- |
+| `e2e-test-android.yml` | Build Android no perfil `maestro` e, em seguida, o Maestro |
+| `e2e-test-ios.yml` | Build de simulador iOS no perfil `maestro` e, em seguida, o Maestro |
+| `e2e-test-android-fast.yml` | Só o Maestro, em cima de uma build Android que já existe |
+
+O perfil `maestro` em `eas.json` gera APK no Android, build de simulador no iOS e não pede credencial de loja (`withoutCredentials`).
+
+### Disparo manual
+
+`eas workflow:run` envia os jobs para a plataforma. O comentário no YAML só deixa o gatilho automático desligado.
+
+```bash
+eas workflow:run .eas/workflows/e2e-test-android.yml
+eas workflow:run .eas/workflows/e2e-test-ios.yml
+eas workflow:run .eas/workflows/e2e-test-android-fast.yml
+```
+
+Android e iOS geram uma build e rodam os fluxos. No fast, cole antes o id da build Android em `build_id`. Com a string vazia o job falha. Esse arquivo fica só no comando manual: o id aponta para um binário já gerado, e uma rotina repetiria sempre a mesma build.
+
+O CLI usa a sessão Expo da máquina (`eas login` ou a variável `EXPO_TOKEN`). Essa conta precisa ter acesso ao projeto `digital-nomad-app`. Na conta pessoal, quem dispara é o dono. Numa organização, disparam Developer, Release Manager, Admin e Owner. Viewer apenas visualiza o projeto. Confira a sessão com `eas whoami`.
+
+### Quando for ligar o gatilho
+
+Em `e2e-test-android.yml` e `e2e-test-ios.yml`, descomente o `pull_request`. Um cron diário buildaria mesmo sem mudança no código.
+
+O job `maestro` de Android declara `runs_on: linux-large-nested-virtualization`, o runner em que o emulador sobe. No iOS o runner padrão já é macOS.
+
+Os fluxos foram ajustados no Android: `hideKeyboard` dispara o voltar e minimiza o app, então o `sign-in.yml` toca em "Bem-vindo" para fechar o teclado. Antes de habilitar o workflow de iOS, rode os mesmos fluxos num simulador e confira o teclado, o texto "Bem-vindo" e as abas.
+
 ## Documentação relacionada
 
 - [Expo SDK 54](https://docs.expo.dev/versions/v54.0.0/)
+- [EAS Workflows — testes E2E com Maestro](https://docs.expo.dev/eas/workflows/examples/e2e-tests/)
 - [Expo Router](https://docs.expo.dev/router/introduction/)
 - [Supabase Auth](https://supabase.com/docs/guides/auth)
 - [Supabase JS](https://supabase.com/docs/reference/javascript/introduction)
